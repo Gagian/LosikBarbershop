@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Transaksi</h1>
+    <button type="button">
+        <a href="{% url 'createdatatransaksi' %}">Add Transaksi</a>
+    </button>
+    <table>
+        <tr>
+            <th>ID Transaksi</th>
+            <th>ID Pelayan</th>
+            <th>Nama Pelanggan</th>
+            <th>Tanggal Transaksi</th>
+            <th>Action</th>
+        </tr>
+        <tbody>
+        {% for item in alltransaksiobj %}
+        <tr>
+            <td>{{ item.idtransaksi }}</td>
+            <td>{{ item.idpelayan }}</td>
+            <td>{{ item.namapelanggan }}</td>
+            <td>{{ item.tanggaltransaksi}}</td>
+            <td>
+                <button type="button">
+                    <a href="{% url 'updatetransaksi' item.idtransaksi %}"> Update</a>
+                </button>
+                <button type="button">
+                    <a href="{% url 'deletetransaksi' item.idtransaksi %}"> Delete</a>
+                </button>
+                <button type="button">
+                    <a href="{D:\Bismillah\barberbarberan\Deadline 3_Kelompok 4 (Revisi 1)\LosikBarbershop\app\templates\detaillayanan.html"> Detail Layanan</a>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+</body>
+</html>

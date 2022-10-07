@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Layanan</h1>
+    <button type="button">
+        <a href="{%url 'createdatalayanan' %}">Add Layanan</a>
+    </button>
+    <table>
+        <tr>
+            <th>ID Layanan</th>
+            <th>Jenis Layanan</th>
+            <th>Harga Layanan</th>
+            <th>Action</th>
+        </tr>
+        {%for item in alllayananobj %}
+        <tr>
+            <td>{{item.idlayanan}}</td>
+            <td>{{ item.jenislayanan }}</td>
+            <td>{{ item.hargalayanan }}</td>
+            <td>
+                <button type="button">
+                    <a href="{%url 'updatelayanan' item.idlayanan %}">Update</a>
+                </button>
+                <button type="button">
+                    <a href="{%url 'deletelayanan' item.idlayanan %}">Delete</a>
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Pelayan</h1>
+    <button type="button">
+        <a href="{% url 'createdatapelayan' %}">Add Pelayan</a>
+    </button>
+    <table>
+        <tr>
+            <th>Nama</th>
+            <th>No Handphone</th>
+            <th>Alamat</th>
+            <th>Action</th>
+        </tr>
+        {%for item in allpelayanobj %}
+        <tr>
+            <td>{{ item.namapelayan }}</td>
+            <td>{{ item.notelp }}</td>
+            <td>{{ item.alamat }}</td>
+            <td>
+                <button type="button">
+                    <a href="{% url 'updatepelayan' item.idpelayan %}"> Update</a>
+                </button>
+                <button type="button">
+                    <a href="{% url 'deletepelayan' item.idpelayan %}"> Delete</a>
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
