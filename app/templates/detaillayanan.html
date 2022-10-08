@@ -17,6 +17,11 @@
         <tr>
             <td>{{ item.idlayanan }}</td>
             <td>{{ item.idtransaksi }}</td>
+             <td>
+                <button type="button">
+                    <a href="{% url 'deletedetaillayanan' item.iddetaillayanan %}"> Delete</a>
+                </button>
+            </td>
         </tr>
         {% endfor %}
     </table>

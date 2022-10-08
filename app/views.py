@@ -25,13 +25,13 @@ def layanan (request):
 
 def transaksi(request):
     alltransaksiobj = models.transaksi.objects.all()
-    layananobj = models.layanan.objects.all()
+    # layananobj = models.layanan.objects.all()
     # gettransaksiobj = models.transaksi.objects.get(idtransaksi=1)
-    print(alltransaksiobj,'woy')
+    # print(alltransaksiobj,'woy')
 
     return render(request, 'transaksi.html',{
         "alltransaksiobj" : alltransaksiobj,
-        "layananobj" : layananobj
+        # "layananobj" : layananobj,
         # "gettransaksiobj" : gettransaksiobj,
     })
 
@@ -44,6 +44,7 @@ def detaillayanan (request):
         "alldetaillayananobj" : alldetaillayananobj,
         # "getdetaillayananobj" : getdetaillayananobj,
     })
+    return redirect('transaksi')
 
 def createdatapelayan(request):
     if request.method == 'GET':
@@ -59,8 +60,7 @@ def createdatapelayan(request):
             alamat = alamat
         )
         newpelayan.save()
-        return redirect('index')
-
+        
 def updatepelayan(request,id):
     pelayanobj = models.pelayan.objects.get(idpelayan=id)
     if request.method == "GET":
@@ -228,4 +228,4 @@ def updatedetaillayanan(request):
 def deletedetaillayanan(request,id):
     detaillayananobj = models.detaillayanan.objects.get(iddetaillayanan=id)
     detaillayananobj.delete()
-    return redirect('index')
+    return redirect('detaillayanan')
