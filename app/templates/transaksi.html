@@ -15,7 +15,6 @@
         <tr>
             <th>ID Transaksi</th>
             <th>ID Pelayan</th>
-            <th>Jenis Layanan</th>
             <th>Nama Pelanggan</th>
             <th>Tanggal Transaksi</th>
             <th>Action</th>
@@ -25,7 +24,6 @@
         <tr>
             <td>{{ item.idtransaksi }}</td>
             <td>{{ item.idpelayan }}</td>
-            <td>{{ item.idlayanan }}</td>
             <td>{{ item.namapelanggan }}</td>
             <td>{{ item.tanggaltransaksi}}</td>
             <td>
@@ -36,7 +34,7 @@
                     <a href="{% url 'deletetransaksi' item.idtransaksi %}"> Delete</a>
                 </button>
                 <button type="button">
-                    <a href="{% url 'detaillayanan' item.iddetaillayanan %}"></a> Detail Layanan</a>
+                    <a href="{% url 'detaillayanan' item.idtransaksi %}">Detail Layanan</a>
                 </button>
             </td>
         </tr>

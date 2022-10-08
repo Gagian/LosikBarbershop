@@ -12,25 +12,26 @@
         {% csrf_token %}
         <table>
             <tr>
-                <th>ID Transaksi</th>
+                <th>ID Pelayan</th>
                 <td>
-                    <select required name="idtransaksi" id="" class="form-control">
-                        <option value="" selected disabled></option>
-                        {% for item in transaksi%}
-                        <option value="{{item.idtransaksi}}">{{item.idtransaksi}}</option>
-                        {% endfor %}
+                    <select required name="namapelayan" id="" class="form-control">
+                    <option value="" selected disabled></option>
+                    {%for item in pelayan %}
+                    <option value="{{item.idpelayan}}">{{item.namapelayan}}</option>
+                    {% endfor %}
                     </select>
                 </td>
             </tr>
             <tr>
-                <th>ID Layanan</th>
+                <th>Nama Pelanggan</th>
                 <td>
-                    <select required name="jenislayanan" id="" class="form-control">
-                        <option value="" selected disabled></option>
-                        {%for item in layanan %}
-                        <option value="{{item.idlayanan}}">{{item.jenislayanan}}</option>
-                        {% endfor %}
-                    </select>
+                    <input type="text" name="Nama Pelanggan">
+                </td>
+            </tr>
+            <tr>
+                <th>Tanggal</th>
+                <td>
+                    <input type="date" name="Tanggal Transaksi">
                 </td>
             </tr>
         </table>

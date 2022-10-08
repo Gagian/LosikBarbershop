@@ -38,13 +38,13 @@ def transaksi(request):
 
 def detaillayanan (request):
     alldetaillayananobj = models.detaillayanan.objects.all()
+    # filterdetaillayananobj = models.detaillayanan.objects.filter(idtransaksi = id)
     # getdetaillayananobj = models.detaillayanan.objects.get(iddetaillayanan=1)
 
     return render(request, 'detaillayanan.html',{
-        "alldetaillayananobj" : alldetaillayananobj,
-        # "getdetaillayananobj" : getdetaillayananobj,
+        "alldetaillayananobj" : alldetaillayananobj, 
+        # detaillayanan : filterdetaillayananobj,
     })
-    return redirect('transaksi')
 
 def createdatapelayan(request):
     if request.method == 'GET':
@@ -153,24 +153,29 @@ def createdatatransaksi(request):
 def updatetransaksi(request,id):
     gettransaksiobj = models.transaksi.objects.get(idtransaksi=id)
     alltransaksiobj = models.transaksi.objects.all()
-    alllayananobj = models.layanan.objects.all()
+    # alllayananobj = models.layanan.objects.all()
+    allpelayanobj= models.pelayan.objects.all()
 
     if request.method == "GET":
         return render(request,'updatetransaksi.html',{
             'transaksi':alltransaksiobj,
-            'layanan'  :alllayananobj,
-            'gettransaksi':gettransaksiobj
+            # 'layanan'  :alllayananobj,
+            'gettransaksi':gettransaksiobj,
+            'pelayan' :allpelayanobj
         })
     else: 
         request.method == 'POST'
-        idtransaksi = request.POST['idtransaksi']
-        getransaksi = models.transaksi.objects.get(idtransaksi = idtransaksi)
-        idlayanan = request.POST['jenislayanan']
-        getlayanan = models.layanan.objects.get(idlayanan = idlayanan)
+        # idtransaksi = request.POST['idtransaksi']
+        # getransaksi = models.transaksi.objects.get(idtransaksi = idtransaksi)
+        # idlayanan = request.POST['jenislayanan']
+        # getlayanan = models.layanan.objects.get(idlayanan = idlayanan)
+        idpelayan = models.POST['namapelayan']
+        getpelayan = models.pelayan.objects.get(idpelayan = idpelayan)
 
-        updatetransaksi = models.detaillayanan(
-            idtransaksi = getransaksi,
-            idlayanan = getlayanan
+        updatetransaksi = models.pelayan(
+            # idtransaksi = getransaksi,
+            # idlayanan = getlayanan,
+            idpelayan = getpelayan
         )
         updatetransaksi.save()
         return redirect('transaksi')
@@ -180,7 +185,7 @@ def updatetransaksi(request,id):
         # transaksiobj.idpelayan = idpelayan
         # transaksiobj.namapelanggan = namapelanggan
         # transaksiobj.tanggaltransaksi = tanggaltransaksi
-        return redirect('layanan')
+        # return redirect('layanan')
 
 def deletetransaksi(request,id):
     transaksiobj = models.transaksi.objects.get(idtransaksi=id)
