@@ -40,7 +40,11 @@ def transaksi(request):
         dummy.append(servicedetail)
         data.append(dummy)
 
+<<<<<<< HEAD
     return render(request, 'tabletransaksi.html',{
+=======
+    return render(request, 'transaksi.html',{
+>>>>>>> e32aeef3b018835db6eb841ec718c205d4ccd49e
         "transaksi" : data
     })
 
@@ -49,7 +53,11 @@ def detaillayanan (request,id):
     detaillayananobj = models.detaillayanan.objects.filter(idtransaksi = id)
     alldetaillayananobj = models.detaillayanan.objects.all()
 
+<<<<<<< HEAD
     return render(request, 'tabledetaillayanan.html',{
+=======
+    return render(request, 'detaillayanan.html',{
+>>>>>>> e32aeef3b018835db6eb841ec718c205d4ccd49e
         "alldetaillayananobj" : detaillayananobj,
         'service_detail': detaillayananobj
     })
@@ -163,7 +171,11 @@ def updatetransaksi(request,id):
     transaksiobj = models.transaksi.objects.get(idtransaksi=id)
     pelayanobj= models.pelayan.objects.all()
     if request.method == "GET":
+<<<<<<< HEAD
         return render(request,'formupdatetransaksi.html',{
+=======
+        return render(request,'updatetransaksi.html',{
+>>>>>>> e32aeef3b018835db6eb841ec718c205d4ccd49e
             'gettransaksiobj':transaksiobj,
             'pelayan' :pelayanobj
         })
@@ -185,7 +197,11 @@ def createdetaillayanan(request):
     layananobj = models.layanan.objects.all()
     transaksiobj = models.transaksi.objects.all()
     if request.method == "GET":
+<<<<<<< HEAD
         return render(request, 'formdetaillayanan.html', {
+=======
+        return render(request, 'createdetaillayanan.html', {
+>>>>>>> e32aeef3b018835db6eb841ec718c205d4ccd49e
             'layanan' : layananobj,
             'transaksi' : transaksiobj
         })
@@ -206,7 +222,11 @@ def updatedetaillayanan(request,id):
     print(detaillayanan)
     updatedetaillayanan_obj = models.layanan.objects.all()
     if request.method == "GET":
+<<<<<<< HEAD
         return render(request, 'formupdatedetaillayanan.html', {
+=======
+        return render(request, 'updatedetaillayanan.html', {
+>>>>>>> e32aeef3b018835db6eb841ec718c205d4ccd49e
             'updatedetaillayanan': updatedetaillayanan_obj,
             'detaillayananobj': detaillayanan
         })
