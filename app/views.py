@@ -1,15 +1,21 @@
 from multiprocessing import dummy
+import re
 from django.shortcuts import render, redirect
 from . import models
 
 # Create your views here.
 def home (request):
-    return render(request, 'home.html')
+    allpelayanobj = models.pelayan.objects.all()
+    alllayananobj = models.layanan.objects.all()
+    return render(request, 'dashboard.html',{
+        "allpelayanobj" : allpelayanobj,
+        "alllayananobj" : alllayananobj
+    })
 def pelayan (request):
     allpelayanobj = models.pelayan.objects.all()
     # getpelayanobj = models.pelayan.objects.get(idpelayan=)
 
-    return render(request, 'pelayan.html',{
+    return render(request, 'tablepelayan.html',{
         "allpelayanobj" : allpelayanobj,
         # "getpelayanobj" : getpelayanobj,
     })
@@ -18,37 +24,39 @@ def layanan (request):
     alllayananobj = models.layanan.objects.all()
     # getlayananobj = models.layanan.objects.get(idlayanan=1)
 
-    return render(request, 'layanan.html',{
+    return render(request, 'tablelayanan.html',{
         "alllayananobj" : alllayananobj,
         # "getlayananobj" : getlayananobj,
     })
 
 def transaksi(request):
+    data=[]
     alltransaksiobj = models.transaksi.objects.all()
-    # layananobj = models.layanan.objects.all()
-    # gettransaksiobj = models.transaksi.objects.get(idtransaksi=1)
-    # print(alltransaksiobj,'woy')
+    for item in alltransaksiobj:
+        dummy=[]
+        id_transaksi = item.idtransaksi
+        servicedetail = models.detaillayanan.objects.filter(idtransaksi = id_transaksi)
+        dummy.append(item)
+        dummy.append(servicedetail)
+        data.append(dummy)
 
-    return render(request, 'transaksi.html',{
-        "alltransaksiobj" : alltransaksiobj,
-        # "layananobj" : layananobj,
-        # "gettransaksiobj" : gettransaksiobj,
+    return render(request, 'tabletransaksi.html',{
+        "transaksi" : data
     })
 
 
-def detaillayanan (request):
+def detaillayanan (request,id):
+    detaillayananobj = models.detaillayanan.objects.filter(idtransaksi = id)
     alldetaillayananobj = models.detaillayanan.objects.all()
-    # filterdetaillayananobj = models.detaillayanan.objects.filter(idtransaksi = id)
-    # getdetaillayananobj = models.detaillayanan.objects.get(iddetaillayanan=1)
 
-    return render(request, 'detaillayanan.html',{
-        "alldetaillayananobj" : alldetaillayananobj, 
-        # detaillayanan : filterdetaillayananobj,
+    return render(request, 'tabledetaillayanan.html',{
+        "alldetaillayananobj" : detaillayananobj,
+        'service_detail': detaillayananobj
     })
 
 def createdatapelayan(request):
     if request.method == 'GET':
-        return render(request, 'createdatapelayan.html')
+        return render(request, 'formaddpelayan.html')
     else :
         namapelayan = request.POST['namapelayan']
         notelp = request.POST['notelp']
@@ -60,11 +68,12 @@ def createdatapelayan(request):
             alamat = alamat
         )
         newpelayan.save()
+        return redirect('index')
         
 def updatepelayan(request,id):
     pelayanobj = models.pelayan.objects.get(idpelayan=id)
     if request.method == "GET":
-        return render(request,'updatepelayan.html',{
+        return render(request,'formupdatepelayan.html',{
             'pelayan':pelayanobj,
         })
     elif request.method == 'POST':
@@ -84,7 +93,7 @@ def deletepelayan(request,id):
 
 def createdatalayanan(request):
     if request.method == 'GET':
-        return render(request, 'createdatalayanan.html')
+        return render(request, 'formaddlayanan.html')
     else :
         jenislayanan = request.POST['jenislayanan']
         hargalayanan = request.POST['hargalayanan']
@@ -99,7 +108,7 @@ def createdatalayanan(request):
 def updatelayanan(request,id):
     layananobj = models.layanan.objects.get(idlayanan=id)
     if request.method == "GET":
-        return render(request,'updatelayanan.html',{
+        return render(request,'formupdatelayanan.html',{
             'layanan':layananobj,
         })
     elif request.method == 'POST':
@@ -119,7 +128,7 @@ def createdatatransaksi(request):
     layananobj = models.layanan.objects.all()
     pelayanobj = models.pelayan.objects.all()
     if request.method == 'GET':
-        return render(request, 'createdatatransaksi.html',{
+        return render(request, 'formcreatetransaksi.html',{
             'layananobj':layananobj,
             'pelayanobj': pelayanobj
         })
@@ -151,86 +160,65 @@ def createdatatransaksi(request):
         return redirect('transaksi')
 
 def updatetransaksi(request,id):
-    gettransaksiobj = models.transaksi.objects.get(idtransaksi=id)
-    alltransaksiobj = models.transaksi.objects.all()
-    # alllayananobj = models.layanan.objects.all()
-    allpelayanobj= models.pelayan.objects.all()
-
+    transaksiobj = models.transaksi.objects.get(idtransaksi=id)
+    pelayanobj= models.pelayan.objects.all()
     if request.method == "GET":
-        return render(request,'updatetransaksi.html',{
-            'transaksi':alltransaksiobj,
-            # 'layanan'  :alllayananobj,
-            'gettransaksi':gettransaksiobj,
-            'pelayan' :allpelayanobj
+        return render(request,'formupdatetransaksi.html',{
+            'gettransaksiobj':transaksiobj,
+            'pelayan' :pelayanobj
         })
-    else: 
-        request.method == 'POST'
-        # idtransaksi = request.POST['idtransaksi']
-        # getransaksi = models.transaksi.objects.get(idtransaksi = idtransaksi)
-        # idlayanan = request.POST['jenislayanan']
-        # getlayanan = models.layanan.objects.get(idlayanan = idlayanan)
-        idpelayan = models.POST['namapelayan']
+    else:
+        idpelayan = request.POST['idpelayan']
         getpelayan = models.pelayan.objects.get(idpelayan = idpelayan)
-
-        updatetransaksi = models.pelayan(
-            # idtransaksi = getransaksi,
-            # idlayanan = getlayanan,
-            idpelayan = getpelayan
-        )
-        updatetransaksi.save()
+        transaksiobj.idpelayan = getpelayan
+        transaksiobj.namapelanggan = request.POST['namapelanggan']
+        transaksiobj.tanggaltransaksi = request.POST['tanggaltransaksi']
+        transaksiobj.save()
         return redirect('transaksi')
-        # idpelayan = request.POST['idpelayan']
-        # namapelanggan = request.POST['namapelanggan']
-        # tanggaltransaksi = request.POST['tanggaltransaksi']
-        # transaksiobj.idpelayan = idpelayan
-        # transaksiobj.namapelanggan = namapelanggan
-        # transaksiobj.tanggaltransaksi = tanggaltransaksi
-        # return redirect('layanan')
 
 def deletetransaksi(request,id):
     transaksiobj = models.transaksi.objects.get(idtransaksi=id)
     transaksiobj.delete()
     return redirect('transaksi')
 
-def createdatadetaillayanan(request):
+def createdetaillayanan(request):
     layananobj = models.layanan.objects.all()
     transaksiobj = models.transaksi.objects.all()
-    if request.method == 'GET':
-        return render(request, 'createdatadetaillayanan.html',{
-            'layananobj': layananobj,
-            'transaksiobj': transaksiobj
+    if request.method == "GET":
+        return render(request, 'formdetaillayanan.html', {
+            'layanan' : layananobj,
+            'transaksi' : transaksiobj
         })
-    else :
+    else:
         idtransaksi = request.POST['idtransaksi']
-        idlayanan = request.POST['idlayanan']
-        idtransaksi = gettransaksi
-        idlayanan = getlayanan
+        jenislayanan = request.POST['idlayanan']
         gettransaksi = models.transaksi.objects.get(idtransaksi = idtransaksi)
-        getlayanan = models.layanan.objects.get(idlayanan = idlayanan)
-        transaksiobj = gettransaksi
-        layananobj = getlayanan
-
+        getlayanan = models.layanan.objects.get(idlayanan = jenislayanan)
         newdetaillayanan = models.detaillayanan(
-            idtransaksi = idtransaksi,
-            idlayanan = idlayanan,
-        )
-        newdetaillayanan.save()
-        return redirect('index')
+            idtransaksi = gettransaksi,
+            idlayanan = getlayanan
+        ).save()
 
-def updatedetaillayanan(request):
-    detaillayananobj = models.layanan.objects.get(iddetaillayanan=id)
-    if request.method == 'GET':
-        return render(request, 'updatedetaillayanan.html', {
-            'detaillayanan':detaillayananobj
+        return redirect('transaksi')
+
+def updatedetaillayanan(request,id):
+    detaillayanan = models.detaillayanan.objects.get(iddetaillayanan = id)
+    print(detaillayanan)
+    updatedetaillayanan_obj = models.layanan.objects.all()
+    if request.method == "GET":
+        return render(request, 'formupdatedetaillayanan.html', {
+            'updatedetaillayanan': updatedetaillayanan_obj,
+            'detaillayananobj': detaillayanan
         })
-    elif request.method == 'POST':
-        idtransaksi = request.POST['idtransaksi']
+    else:
         idlayanan = request.POST['idlayanan']
-        detaillayananobj.idtransaksi = idtransaksi
-        detaillayananobj.idlayanan = idlayanan
-        return redirect('detaillayanan')
+        layananobjget = models.layanan.objects.get(idlayanan=idlayanan)
+        detaillayanan.idlayanan = layananobjget
+
+        detaillayanan.save()
+        return redirect('transaksi')
 
 def deletedetaillayanan(request,id):
-    detaillayananobj = models.detaillayanan.objects.get(iddetaillayanan=id)
-    detaillayananobj.delete()
-    return redirect('detaillayanan')
+    deletedetaillayanan = models.detaillayanan.objects.get(iddetaillayanan =id)
+    deletedetaillayanan.delete()
+    return redirect('transaksi')

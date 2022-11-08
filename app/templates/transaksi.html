@@ -4,39 +4,49 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Transaksi</title>
 </head>
 <body>
     <h1>Transaksi</h1>
-    <button type="button">
-        <a href="{% url 'createdatatransaksi' %}">Add Transaksi</a>
-    </button>
+    <a href="{%url 'home' %}">
+        <button>Home</button>
+    </a>
+    <a href="{%url 'createdetaillayanan' %}">
+        <button>Add Detail Layanan</button>
+    </a>
     <table>
         <tr>
             <th>ID Transaksi</th>
             <th>ID Pelayan</th>
             <th>Nama Pelanggan</th>
             <th>Tanggal Transaksi</th>
+            <th>Detail Layanan</th>
             <th>Action</th>
         </tr>
         <tbody>
-        {% for item in alltransaksiobj %}
+        {% for item in transaksi %}
         <tr>
-            <td>{{ item.idtransaksi }}</td>
-            <td>{{ item.idpelayan }}</td>
-            <td>{{ item.namapelanggan }}</td>
-            <td>{{ item.tanggaltransaksi}}</td>
+            <td>T_{{item.0.idtransaksi}}</td>
+            <td>{{ item.0.idpelayan.namapelayan }}</td>
+            <td>{{ item.0.namapelanggan }}</td>
+            <td>{{ item.0.tanggaltransaksi}}</td>
             <td>
-                <button type="button">
-                    <a href="{% url 'updatetransaksi' item.idtransaksi %}"> Update</a>
-                </button>
-                <button type="button">
-                    <a href="{% url 'deletetransaksi' item.idtransaksi %}"> Delete</a>
-                </button>
-                <button type="button">
-                    <a href="{% url 'detaillayanan' item.idtransaksi %}">Detail Layanan</a>
-                </button>
+                {% for x in item.1 %}
+                <p>
+                    {{x.idlayanan.jenislayanan}}
+                </p>
+                {% endfor %}
             </td>
+            <td>
+                <a href="{% url 'updatetransaksi' item.0.idtransaksi %}">
+                    <button>Update</button>
+                </a>
+                <a href="{% url 'detaillayanan' item.0.idtransaksi %}">
+                    <button>Detail Layanan</button>
+                </a>
+                <a href="{% url 'deletetransaksi' item.0.idtransaksi %}">
+                    <button>Delete</button>
+                </a>
         </tr>
         </tbody>
         {% endfor %}

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Update Transaksi</title>
 </head>
 <body>
     <h1>Update Transaksi</h1>
@@ -14,8 +14,7 @@
             <tr>
                 <th>ID Pelayan</th>
                 <td>
-                    <select required name="namapelayan" id="" class="form-control">
-                    <option value="" selected disabled></option>
+                    <select required name="idpelayan" id="">
                     {%for item in pelayan %}
                     <option value="{{item.idpelayan}}">{{item.namapelayan}}</option>
                     {% endfor %}
@@ -25,17 +24,17 @@
             <tr>
                 <th>Nama Pelanggan</th>
                 <td>
-                    <input type="text" name="Nama Pelanggan">
+                    <input type="text" value="{{gettransaksiobj.namapelanggan}}" name="namapelanggan">
                 </td>
             </tr>
             <tr>
                 <th>Tanggal</th>
                 <td>
-                    <input type="date" name="Tanggal Transaksi">
+                    <input type="date" value="{{gettransaksiobj.tanggaltransaksi}}" name="tanggaltransaksi">
                 </td>
             </tr>
         </table>
-        <button type="submit">Submit</button>
+        <button type="submit">Update</button>
     </form>
 </body>
 </html>
